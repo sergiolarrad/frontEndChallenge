@@ -1,0 +1,29 @@
+<form class="calculator-container" [formGroup]="formGroup" (ngSubmit)="validateForm()">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Amount desired</mat-label>
+    <input matInput type="number" value="0" min="0" [formControl]="amountControl">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+  <div *ngIf="!possibleCombination?.equal">
+    The amount was not found:
+    <div>
+    <button mat-raised-button color="secondary" *ngIf="possibleCombination.floor" (click)="choosePrevious()"
+            type="button">Montant
+      précédent
+    </button>
+    <button mat-raised-button color="secondary" *ngIf="possibleCombination.ceil" (click)="chooseNext()" type="button">
+      Montant
+      suivant
+    </button>
+    </div>
+  </div>
+  <div *ngIf="possibleCombination?.equal">
+    Votre montant est composé des cartes suivantes :
+    <ul>
+      <li *ngFor="let card of possibleCombination?.equal?.cards">{{card}}</li>
+    </ul>
+  </div>
+
+</form>
+
+
