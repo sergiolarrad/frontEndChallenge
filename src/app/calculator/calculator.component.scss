@@ -1,14 +1,23 @@
 :host {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   flex-flow: row nowrap;
   align-content: center;
   margin: 50px;
 }
 
-.calculator-container {
-  width: 70%;
+.flexrow {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+}
+
+.flexcol {
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

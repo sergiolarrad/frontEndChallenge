@@ -1,29 +1,44 @@
-<form class="calculator-container" [formGroup]="formGroup" (ngSubmit)="validateForm()">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Amount desired</mat-label>
-    <input matInput type="number" value="0" min="0" [formControl]="amountControl">
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-  <div *ngIf="!possibleCombination?.equal">
-    The amount was not found:
-    <div>
-    <button mat-raised-button color="secondary" *ngIf="possibleCombination.floor" (click)="choosePrevious()"
-            type="button">Montant
-      précédent
-    </button>
-    <button mat-raised-button color="secondary" *ngIf="possibleCombination.ceil" (click)="chooseNext()" type="button">
-      Montant
-      suivant
-    </button>
+<mat-card>
+  <form class="flexcol" style="width: 400px" [formGroup]="formGroup" (ngSubmit)="submitForm()">
+    <div class="flexrow my-10">
+      <div class="flexcol" style="flex :1">
+        <mat-form-field appearance="fill">
+          <mat-label>Montant désiré :</mat-label>
+          <input matInput type="number" min="1" [formControl]="valueControl" (keyup)="clearCardCombination()">
+          <mat-error *ngIf="valueControl.hasError('min')">
+            Veuillez introduire une valeur supérieure à 0
+          </mat-error>
+          <mat-error *ngIf="valueControl.hasError('required')">
+            Veuillez introduire une valeur
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flexcol" style="width: 170px; margin-left: 10px; justify-content: center">
+        <button class="my-10" mat-raised-button color="primary" style="width: 100%"
+                (click)="askForCeilOrFloor('ceil')"
+                type="button"
+        >
+          Montant suivant
+        </button>
+        <button class="my-10" mat-raised-button color="primary" style="width: 100%"
+                (click)="askForCeilOrFloor('floor')"
+                type="button">Montant précédent
+        </button>
+
+      </div>
     </div>
-  </div>
-  <div *ngIf="possibleCombination?.equal">
-    Votre montant est composé des cartes suivantes :
-    <ul>
-      <li *ngFor="let card of possibleCombination?.equal?.cards">{{card}}</li>
-    </ul>
-  </div>
-
-</form>
+    <button class="my-10" mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">Valider
+    </button>
 
 
+    <div class="my-10" *ngIf="cardCombination && !cardCombination?.equal">
+      La quantité sélectionnée n'est pas disponible, sélectionnez une autre quantité à l'aide des boutons
+    </div>
+    <div class="my-10" *ngIf="cardCombination?.equal">
+      Votre montant est composé des cartes suivantes :
+      <ul>
+        <li *ngFor="let card of cardCombination?.equal?.cards">{{card}}</li>
+      </ul>
+    </div>
+  </form>
+</mat-card>
